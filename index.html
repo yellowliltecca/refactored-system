@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8ca43">
+  <meta name="description" content="HoneyVine — натуральный мёд, медовые соты и подарочные наборы. Выберите любимый вкус.">
+  <title>HoneyVine — натуральный мёд</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/hero-honey-cutout.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="assets/honey-drips-universal.png" as="image">
+  <link rel="preload" href="assets/bee.glb" as="fetch" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
+  <script type="module" src="bee-scene.js"></script>
+  <script type="module" src="jar-bees.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Transparent one-time entrance animation. The page itself is visible immediately. -->
+  <div class="bee-entry" id="beeEntry" aria-hidden="true">
+    <canvas id="beeEntryCanvas"></canvas>
+    <div class="bee-entry__fallback" id="beeEntryFallback">
+      <img class="entry-bee entry-bee--1" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--2" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--3" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--4" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--5" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--6" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--7" src="assets/bee-sprite.png" alt="">
+      <img class="entry-bee entry-bee--8" src="assets/bee-sprite.png" alt="">
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="top" aria-labelledby="heroTitle">
+      <header class="site-header">
+        <div class="container header__inner">
+          <a class="brand" href="#top" aria-label="HoneyVine — на главную">
+            <span class="brand__mark" aria-hidden="true">✿</span>
+            <span class="brand__text">HoneyVine<small>PURE HONEY STORE</small></span>
+          </a>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span></button>
+          <nav class="main-nav" id="mainNav" aria-label="Главная навигация">
+            <a class="is-active" href="#top">Главная</a>
+            <a href="#products">Каталог</a>
+            <a href="#story">О мёде</a>
+            <a href="#advantages">Преимущества</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#contacts">Контакты</a>
+          </nav>
+          <div class="header-actions">
+            <button class="header-link" id="accountButton" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5h17v13h-17z"/><path d="m4 6 8 6 8-6"/></svg><span>Связаться</span></button>
+            <button class="cart-button" id="cartButton" type="button" aria-label="Открыть корзину">
+              <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 1.9-1.4L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>
+              <span class="cart-label">Корзина</span><span class="cart-count" id="cartCount">0</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="hero__glow hero__glow--one" aria-hidden="true"></div>
+      <div class="hero__glow hero__glow--two" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow"><span></span> Natural &amp; Pure</p>
+          <h1 id="heroTitle"><span>GOOD</span> HONEY</h1>
+          <p class="hero__subheading">Pure Taste <i>•</i> Good Health</p>
+          <p class="hero__description">100% натуральный мёд, бережно собранный на пасеке. Выбирайте любимые сорта, наслаждайтесь насыщенным вкусом и делитесь сладкими моментами.</p>
+          <div class="hero__actions">
+            <a class="button button--dark" href="#products"><span class="button__cart">🛒</span> Заказать мёд</a>
+            <a class="video-link" href="#story"><span class="play-button">▶</span><span>О мёде<br>HoneyVine</span></a>
+          </div>
+        </div>
+        <div class="hero__visual" aria-label="Банка натурального мёда">
+          <div class="hero__visual-halo"></div>
+          <img src="assets/hero-honey-cutout.webp" alt="Банка натурального цветочного мёда HoneyVine с декоративной этикеткой, цветком и листьями" fetchpriority="high">
+          <canvas class="jar-bee-canvas" id="jarBeeCanvas" aria-hidden="true"></canvas>
+          <div class="jar-bee-fallback" aria-hidden="true">
+            <img class="jar-bee-fallback__one" src="assets/bee-sprite.png" alt="">
+            <img class="jar-bee-fallback__two" src="assets/bee-sprite.png" alt="">
+            <img class="jar-bee-fallback__three" src="assets/bee-sprite.png" alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story section" id="story">
+      <div class="honey-drip" aria-hidden="true">
+        <img src="assets/honey-drips-universal.png" alt="" width="2172" height="355" decoding="async">
+      </div>
+      <div class="story__inner">
+        <div class="story__copy">
+          <p class="eyebrow eyebrow--script">Delicious &amp; Nutritious</p>
+          <h2>Sweet Honey</h2>
+          <p>Натуральная сладость, созданная природой. Каждый сорт — свой аромат, оттенок и настроение. Найдите тот самый вкус.</p>
+          <a class="button button--dark" href="#products">Смотреть каталог <span>→</span></a>
+        </div>
+        <div class="story__image-wrap">
+          <img src="assets/feature-honey-hex.png" alt="Золотистый мёд стекает с деревянного мёдопера в банку" loading="lazy">
+        </div>
+      </div>
+      <div class="story__flower story__flower--left" aria-hidden="true">✿</div>
+    </section>
+
+    <section class="products section" id="products">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Our Products</h2>
+          <div class="heading-divider"><span></span><b>✿</b><span></span></div>
+          <p>Натуральный мёд, соты и подарочные наборы для особенных моментов.</p>
+        </div>
+        <div class="product-grid" id="productGrid">
+          <article class="product-card" data-category="honey">
+            <div class="product-card__image"><img src="assets/product-premium.webp" alt="Премиальный мёд в чёрной банке" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Фирменная коллекция</p><h3>Премиальный мёд</h3><p class="product-card__weight">500 г · насыщенный вкус</p></div><button class="product-card__add" data-add="premium" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="honeycomb">
+            <div class="product-card__image"><img src="assets/product-comb.webp" alt="Натуральные медовые соты" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Прямо из улья</p><h3>Медовые соты</h3><p class="product-card__weight">Натуральный продукт</p></div><button class="product-card__add" data-add="comb" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="honey">
+            <div class="product-card__image"><img src="assets/product-jar.webp" alt="Цветочный мёд в стеклянной банке" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Классика</p><h3>Цветочный мёд</h3><p class="product-card__weight">500 г · мягкий аромат</p></div><button class="product-card__add" data-add="classic" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="honey">
+            <div class="product-card__image"><img src="assets/product-ginger.webp" alt="Мёд с имбирём" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Необычный вкус</p><h3>Мёд с имбирём</h3><p class="product-card__weight">250 г · пряная нотка</p></div><button class="product-card__add" data-add="ginger" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="sets">
+            <div class="product-card__image"><img src="assets/product-gift.webp" alt="Подарочный набор мёда" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Готовый подарок</p><h3>Медовая коллекция</h3><p class="product-card__weight">Набор из нескольких сортов</p></div><button class="product-card__add" data-add="gift" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="honey">
+            <div class="product-card__image"><img src="assets/product-acacia.webp" alt="Акациевый мёд" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Нежный и светлый</p><h3>Акациевый мёд</h3><p class="product-card__weight">250 г · деликатный вкус</p></div><button class="product-card__add" data-add="acacia" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="honey">
+            <div class="product-card__image"><img src="assets/product-raw.webp" alt="Натуральный сырой мёд" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Ближе к природе</p><h3>Raw honey</h3><p class="product-card__weight">500 г · выразительный аромат</p></div><button class="product-card__add" data-add="raw" type="button">В корзину <span>↗</span></button></div>
+          </article>
+          <article class="product-card" data-category="sets">
+            <div class="product-card__image"><img src="assets/product-set.webp" alt="Ассорти мёда в бутылочках" loading="lazy"></div>
+            <div class="product-card__body"><div><p class="product-card__type">Попробовать всё</p><h3>Ассорти мёда</h3><p class="product-card__weight">Три разных вкуса</p></div><button class="product-card__add" data-add="assortment" type="button">В корзину <span>↗</span></button></div>
+          </article>
+        </div>
+        <p class="catalog-note">Стоимость и наличие уточняются при оформлении заказа.</p>
+      </div>
+    </section>
+
+    <section class="review section" id="reviews">
+      <div class="container review__inner">
+        <div class="review__photo-wrap"><img src="assets/beekeeper.webp" alt="Пасечница на фоне пасеки" loading="lazy"><span class="review__quote-mark">“</span></div>
+        <div class="review__content">
+          <p class="review__text">«Люблю, когда за красивой баночкой стоит настоящее внимание к продукту. HoneyVine — тот самый натуральный мёд, которым хочется делиться с близкими».</p>
+          <div class="review__author"><img src="assets/beekeeper.webp" alt="Елена" loading="lazy"><div><b>Елена</b><small>Пчеловод и ценитель мёда</small></div><div class="review__stars" aria-label="Пять звёзд">★★★★★</div></div>
+        </div>
+        <div class="review__honeycomb" aria-hidden="true"><span>⬡</span><span>⬡</span><span>⬡</span><span>⬡</span><span>⬡</span></div>
+      </div>
+    </section>
+
+    <section class="advantages section" id="advantages">
+      <div class="container">
+        <div class="section-heading section-heading--left">
+          <p class="eyebrow">Почему HoneyVine</p>
+          <h2>Маленькие детали.<br><em>Большая любовь к мёду.</em></h2>
+        </div>
+        <div class="advantage-grid">
+          <article class="advantage-card"><span class="advantage-card__icon">✳</span><h3>Натуральный вкус</h3><p>Сохраняем главное — природный вкус и аромат каждого сорта.</p><span class="advantage-card__number">01</span></article>
+          <article class="advantage-card"><span class="advantage-card__icon">⌁</span><h3>С заботой о деталях</h3><p>Аккуратная упаковка, продуманные наборы и внимание к каждому заказу.</p><span class="advantage-card__number">02</span></article>
+          <article class="advantage-card"><span class="advantage-card__icon">♡</span><h3>Для себя и близких</h3><p>Любимый вкус к завтраку или сладкий подарок без особого повода.</p><span class="advantage-card__number">03</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter section" id="contacts">
+      <div class="container newsletter__inner">
+        <div><p class="eyebrow">Остаёмся на связи</p><h2>Пусть в жизни<br><em>будет больше мёда.</em></h2><p>Оставьте контакты — поможем выбрать сорт или собрать подарок.</p></div>
+        <form class="contact-form" id="contactForm">
+          <label for="contactName">Как к вам обращаться?</label>
+          <input id="contactName" name="name" type="text" placeholder="Ваше имя" required>
+          <label for="contactPhone">Номер телефона</label>
+          <input id="contactPhone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required>
+          <button class="button button--dark" type="submit">Оставить заявку <span>→</span></button>
+          <small>Нажимая кнопку, вы соглашаетесь на обработку данных для связи по заявке.</small>
+          <p class="form-message" id="formMessage" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer__top">
+      <a class="brand brand--footer" href="#top"><span class="brand__mark">✿</span><span class="brand__text">HoneyVine<small>PURE HONEY STORE</small></span></a>
+      <p>Натуральная сладость<br>в каждом дне.</p>
+      <div class="footer__links"><a href="#products">Каталог</a><a href="#story">О нас</a><a href="#advantages">Преимущества</a><a href="#contacts">Контакты</a></div>
+      <a class="back-top" href="#top" aria-label="Наверх">↑</a>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span id="year"></span> HoneyVine. Все права защищены.</span>
+      <span>Сделано с <b>♥</b> и любовью к мёду</span>
+      <span class="model-credit">3D-модель пчелы: <a href="https://sketchfab.com/trmhtk2" target="_blank" rel="noopener noreferrer">trmhtk2 / Sketchfab</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></span>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Корзина" aria-hidden="true">
+    <div class="cart-drawer__head"><div><p class="eyebrow">Ваш выбор</p><h2>Корзина <span id="drawerCount">0</span></h2></div><button class="icon-button" id="closeCart" aria-label="Закрыть корзину">×</button></div>
+    <div class="cart-items" id="cartItems"><div class="cart-empty"><span>✿</span><h3>Пока здесь пусто</h3><p>Добавьте любимый мёд — и он появится здесь.</p><button class="button button--dark" id="continueShopping" type="button">Перейти в каталог</button></div></div>
+    <div class="cart-drawer__footer"><p>Стоимость и доставка согласуются после заявки.</p><button class="button button--dark button--full" id="checkoutButton" type="button" disabled>Оформить заказ <span>→</span></button></div>
+  </aside>
+
+  <div class="modal-backdrop" id="orderModalBackdrop">
+    <section class="order-modal" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+      <button class="icon-button order-modal__close" id="closeOrder" aria-label="Закрыть">×</button>
+      <p class="eyebrow">Почти готово</p><h2 id="orderTitle">Оставить заявку</h2>
+      <p>Укажите контакты — мы свяжемся с вами и уточним наличие, стоимость и доставку.</p>
+      <form id="orderForm" class="order-form"><label for="orderName">Имя</label><input id="orderName" name="name" required placeholder="Ваше имя"><label for="orderPhone">Телефон</label><input id="orderPhone" name="phone" type="tel" required placeholder="+7 (___) ___-__-__"><label for="orderComment">Комментарий (необязательно)</label><textarea id="orderComment" name="comment" rows="3" placeholder="Например, хочу подарочный набор"></textarea><button class="button button--dark button--full" type="submit">Отправить заявку <span>→</span></button><small class="order-hint">Демо-форма: подключите email или CRM в script.js, чтобы получать реальные заявки.</small><p class="form-message" id="orderMessage" aria-live="polite"></p></form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
