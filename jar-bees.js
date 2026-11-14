@@ -24,23 +24,22 @@ function ensureFallbackBeeCount(count = 7) {
 }
 
 if (visual && canvas && image) {
-  // Give the jar orbit its own viewport layer. This keeps the entrance swarm
-  // visible over the page while the jar bees remain visible above both.
-  canvas.classList.add('jar-bee-global-layer');
-  document.body.appendChild(canvas);
+  // Keep the bee scene inside the jar wrapper. Its coordinates are local to
+  // this element, so the bees naturally scroll with the jar on mobile and desktop.
+  canvas.classList.remove('jar-bee-global-layer');
+  if (canvas.parentElement !== visual) visual.appendChild(canvas);
   if (fallback) {
     ensureFallbackBeeCount(7);
-    fallback.classList.add('jar-bee-fallback-global', 'is-active');
-    document.body.appendChild(fallback);
+    fallback.classList.remove('jar-bee-fallback-global');
+    fallback.classList.add('is-active');
+    if (fallback.parentElement !== visual) visual.appendChild(fallback);
   }
 
-  // Click targets and honey particles live in a transparent viewport overlay.
-  // Only the small bee hit areas accept pointer input, so the rest of the page
-  // remains fully clickable on desktop and touch devices.
+  // Hit targets and particle effects use the same local coordinate system.
   const interactionLayer = document.createElement('div');
   interactionLayer.className = 'jar-bee-interaction-layer';
   interactionLayer.setAttribute('aria-hidden', 'false');
-  document.body.appendChild(interactionLayer);
+  visual.appendChild(interactionLayer);
 
   const fallbackReactionTimers = new WeakMap();
   const fallbackBeeTapCounts = new WeakMap();
@@ -81,7 +80,11 @@ if (visual && canvas && image) {
 
     if (tapCount >= 4) {
       const rect = beeImage.getBoundingClientRect();
-      createMinecraftSmokePuff(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      const layerRect = interactionLayer.getBoundingClientRect();
+      createMinecraftSmokePuff(
+        rect.left + rect.width / 2 - layerRect.left,
+        rect.top + rect.height / 2 - layerRect.top
+      );
       beeImage.dataset.vanished = 'true';
       beeImage.classList.remove('is-angry');
       beeImage.classList.add('is-vanishing');
@@ -237,7 +240,11 @@ if (visual && canvas && image) {
 
     const rect = bee.hitTarget?.getBoundingClientRect();
     if (rect) {
-      createMinecraftSmokePuff(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      const layerRect = interactionLayer.getBoundingClientRect();
+      createMinecraftSmokePuff(
+        rect.left + rect.width / 2 - layerRect.left,
+        rect.top + rect.height / 2 - layerRect.top
+      );
     }
 
     if (bee.reactionTimer) window.clearTimeout(bee.reactionTimer);
@@ -282,9 +289,10 @@ if (visual && canvas && image) {
     bee.hitTarget = target;
   }
 
-  // Measure the jar image in viewport coordinates because the bee canvas is
-  // fixed to the viewport. object-fit:contain is accounted for explicitly.
+  // Measure the jar and bee canvas in the same local coordinate system.
+  // Scrolling does not alter these values; only a real layout/size change does.
   function measureLayout() {
+    const visualRect = visual.getBoundingClientRect();
     const imageRect = image.getBoundingClientRect();
     const naturalWidth = Math.max(1, image.naturalWidth || imageRect.width);
     const naturalHeight = Math.max(1, image.naturalHeight || imageRect.height);
@@ -294,18 +302,17 @@ if (visual && canvas && image) {
     );
     const contentWidth = Math.max(1, naturalWidth * fit);
     const contentHeight = Math.max(1, naturalHeight * fit);
-    const imageLeft = imageRect.left + (imageRect.width - contentWidth) / 2;
-    const imageTop = imageRect.top + (imageRect.height - contentHeight) / 2;
+    const imageLeft = imageRect.left + (imageRect.width - contentWidth) / 2 - visualRect.left;
+    const imageTop = imageRect.top + (imageRect.height - contentHeight) / 2 - visualRect.top;
     const imageSize = Math.min(contentWidth, contentHeight);
     const capX = imageLeft + contentWidth * 0.5;
     const capTop = imageTop + contentHeight * 0.035;
 
     return {
-      width: Math.max(1, window.innerWidth),
-      height: Math.max(1, window.innerHeight),
+      width: Math.max(1, visual.clientWidth || visualRect.width),
+      height: Math.max(1, visual.clientHeight || visualRect.height),
       imageSize,
       capX,
-      // Orbit stays attached to the upper rim of the lid at every breakpoint.
       orbitY: capTop + contentHeight * 0.012,
       radiusX: contentWidth * 0.305,
       radiusY: contentHeight * 0.042
@@ -332,16 +339,7 @@ if (visual && canvas && image) {
     });
   }
 
-  let scrollLayoutFrame = 0;
-  function scheduleScrollLayout() {
-    if (scrollLayoutFrame) return;
-    scrollLayoutFrame = requestAnimationFrame(() => {
-      scrollLayoutFrame = 0;
-      resizeScene();
-    });
-  }
-
-  function resizeScene() {
+function resizeScene() {
     // Reposition the loading/failure sprites even before WebGL has finished loading.
     layout = measureLayout();
     updateFallbackLayout();
@@ -533,7 +531,7 @@ if (visual && canvas && image) {
       resizeScene();
       resizeObserver?.observe(visual);
       window.addEventListener('resize', resizeScene, { passive: true });
-      window.addEventListener('scroll', scheduleScrollLayout, { passive: true });
+
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) stopLoop();
         else startLoop();
