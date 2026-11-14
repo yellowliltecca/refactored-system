@@ -90,8 +90,6 @@ img { display: block; max-width: 100%; }
 .story .button { min-height: 47px; padding-inline: 25px; }
 .story__image-wrap { position: relative; justify-self: center; width: min(390px, 100%); aspect-ratio: 1 / 1; display: grid; place-items: center; }
 .story__image-wrap img { position: relative; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(112, 70, 19, .10)); }
-.story__flower { position: absolute; color: #e8a51b; font-size: 48px; opacity: .75; }
-.story__flower--left { bottom: -17px; left: -13px; }
 
 /* Product cards — eight square image tiles, matching the 4 × 2 reference grid. */
 .products { padding: 42px 0 58px; background: #fff4d5; }
@@ -124,7 +122,6 @@ img { display: block; max-width: 100%; }
 .review__inner { position: relative; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 6%; }
 .review__photo-wrap { position: relative; width: 100%; max-width: 500px; aspect-ratio: 1.2 / 1; }
 .review__photo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 27px; box-shadow: var(--shadow); }
-.review__quote-mark { position: absolute; top: -18px; right: -18px; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; color: #fff; background: #efa91c; font-family: Georgia, serif; font-size: 54px; line-height: 1; box-shadow: 0 10px 22px rgba(149, 95, 18, .18); }
 .review__content { max-width: 620px; padding-right: 3%; }
 .review__text { position: relative; margin: 0 0 24px; color: #4d3021; font-family: 'DM Sans', sans-serif; font-size: clamp(17px, 1.45vw, 21px); font-weight: 500; line-height: 1.55; }
 .review__author { display: flex; align-items: center; gap: 12px; }
@@ -133,7 +130,6 @@ img { display: block; max-width: 100%; }
 .review__author b { color: #4b2a18; font-size: 12px; }
 .review__author small { margin-top: 3px; color: #9b8771; font-size: 10px; }
 .review__stars { margin-left: auto; color: #e9a51a; font-size: 20px; letter-spacing: 2px; }
-.review__honeycomb { position: absolute; top: -22px; right: -8%; display: grid; grid-template-columns: repeat(2, 54px); color: rgba(239, 189, 70, .35); font-size: 68px; line-height: .8; transform: rotate(30deg); pointer-events: none; }
 
 /* Benefits and contact */
 .advantages { padding: 78px 0; background: #fff7e3; }
@@ -295,7 +291,6 @@ img { display: block; max-width: 100%; }
   .review { padding: 55px 0; }
   .review__inner { gap: 28px; }
   .review__text { font-size: 13px; }
-  .review__honeycomb { right: -12%; }
   .advantages, .newsletter { padding: 60px 0; }
 }
 @media (max-width: 560px) {
@@ -330,8 +325,6 @@ img { display: block; max-width: 100%; }
   .story__copy > p:not(.eyebrow) { margin: 10px 0 15px; font-size: 12px; }
   .story .button { min-height: 42px; padding-inline: 20px; font-size: 11px; }
   .story__image-wrap { width: min(300px, 82vw); justify-self: center; }
-  
-  .story__flower--left { font-size: 32px; }
   .products { padding: 38px 0 43px; }
   .section-heading { margin-bottom: 22px; }
   .section-heading h2 { font-size: 30px; }
@@ -350,7 +343,6 @@ img { display: block; max-width: 100%; }
   
   .review__text { margin: 13px 0 17px; font-size: 13px; }
   .review__stars { font-size: 15px; letter-spacing: 1px; }
-  .review__honeycomb { right: -6%; top: 0; font-size: 54px; }
   .advantages { padding: 52px 0; }
   .section-heading--left h2 { font-size: 29px; }
   .advantage-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -500,7 +492,6 @@ img { display: block; max-width: 100%; }
 .story__copy > p:not(.eyebrow) { max-width: 420px; margin-top: 14px; font-size: 13px; }
 .story__image-wrap { width: min(360px, 100%); aspect-ratio: 1 / 1; }
 .story__image-wrap img { width: 100%; height: 100%; object-fit: contain; }
-.story__flower--left { left: 1.3%; bottom: 5px; font-size: 55px; opacity: .65; }
 .products { padding: 50px 0 76px; background: linear-gradient(135deg, #fff5d7, #fff0ca); }
 .products .container { width: min(1260px, calc(100% - 100px)); }
 .section-heading { margin-bottom: 30px; }
@@ -1108,3 +1099,20 @@ html { overflow-x: clip; }
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Inline SVG icon system: identical, crisp rendering on iOS and Android. */
+.brand__mark svg { display:block; width:27px; height:27px; fill:none; stroke:currentColor; stroke-width:1.55; stroke-linecap:round; stroke-linejoin:round; }
+.button__cart { display:block; flex:0 0 auto; width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.play-button { padding:0; }
+.play-button svg { display:block; width:15px; height:15px; fill:currentColor; }
+.heading-divider b { display:grid; place-items:center; }
+.heading-divider b svg { display:block; width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linejoin:round; }
+.review__stars { display:flex; align-items:center; gap:2px; letter-spacing:0; }
+.review__stars svg { display:block; width:15px; height:15px; fill:currentColor; }
+.advantage-card__icon svg { display:block; width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.back-top svg { display:block; width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.footer__bottom b { display:inline-flex; vertical-align:middle; }
+.footer__bottom b svg { display:block; width:12px; height:12px; fill:currentColor; }
+.cart-empty > span svg { display:block; width:25px; height:25px; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round; }
+.icon-button svg, .cart-line__remove svg { display:block; width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.cart-line__remove svg { width:13px; height:13px; }
