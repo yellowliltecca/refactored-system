@@ -751,40 +751,6 @@ html { overflow-x: clip; }
 
 
 
-/* Independent foreground layer for the bees circling the jar.
-   The entrance fly-by stays at z-index 500; jar bees stay above it at 501.
-   The hero itself remains in normal stacking order, so fly-by bees are never hidden behind it. */
-.jar-bee-canvas.jar-bee-global-layer {
-  position: fixed !important;
-  z-index: 501 !important;
-  inset: 0 !important;
-  display: block !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  opacity: 1;
-  pointer-events: none !important;
-}
-.jar-bee-fallback.jar-bee-fallback-global {
-  position: fixed !important;
-  z-index: 501 !important;
-  inset: 0 !important;
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  overflow: visible;
-  pointer-events: none;
-}
-.jar-bee-fallback.jar-bee-fallback-global.is-active { display: block; }
-.jar-bee-fallback.jar-bee-fallback-global img {
-  position: absolute;
-  width: clamp(25px, 3.8vw, 43px) !important;
-  height: auto !important;
-  max-width: none;
-  object-fit: contain;
-  filter: drop-shadow(0 4px 5px rgba(81, 43, 10, .2));
-}
-
-
 /* Extra fallback bees: seven separate, looping paths around the jar lid. */
 .jar-bee-fallback__four {
   left: 35%; top: -4%;
@@ -1030,15 +996,16 @@ html { overflow-x: clip; }
 
 
 /* Interactive bee reactions: invisible, generous tap targets work on desktop and mobile. */
-.jar-bee-interaction-layer {
-  position: fixed;
+.hero__visual .jar-bee-interaction-layer {
+  position: absolute;
+  z-index: 8;
   inset: 0;
-  z-index: 503;
   overflow: visible;
   pointer-events: none;
 }
 .jar-bee-hit-target {
   position: absolute;
+  z-index: 9;
   width: 52px;
   height: 52px;
   padding: 0;
@@ -1062,7 +1029,7 @@ html { overflow-x: clip; }
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
-.jar-bee-fallback.jar-bee-fallback-global img.is-angry {
+.hero__visual .jar-bee-fallback img.is-angry {
   filter: sepia(1) saturate(9) hue-rotate(315deg) brightness(1.14)
     drop-shadow(0 4px 6px rgba(120, 16, 8, .38)) !important;
 }
@@ -1070,7 +1037,7 @@ html { overflow-x: clip; }
 
 /* Minecraft-like pixel smoke when a bee has been tapped four times. */
 .jar-bee-smoke-puff {
-  position: fixed;
+  position: absolute;
   z-index: 505;
   width: 1px;
   height: 1px;
@@ -1090,7 +1057,7 @@ html { overflow-x: clip; }
   opacity: 0;
   animation: jar-bee-minecraft-poof 620ms steps(5, end) var(--particle-delay, 0ms) both;
 }
-.jar-bee-fallback.jar-bee-fallback-global img.is-vanishing {
+.hero__visual .jar-bee-fallback img.is-vanishing {
   opacity: 0 !important;
   transform: translate(-50%, -50%) scale(.35) !important;
   transition: opacity 100ms steps(2, end), transform 100ms steps(2, end);
@@ -1110,4 +1077,34 @@ html { overflow-x: clip; }
       calc(-50% + var(--dy, 0px))
     ) scale(.8);
   }
+}
+
+
+/* Bee scene is anchored to the jar wrapper, never to the browser viewport. */
+.hero__visual {
+  position: absolute;
+  isolation: isolate;
+}
+.hero__visual .jar-bee-canvas {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.hero__visual .jar-bee-fallback {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.hero__visual .jar-bee-fallback img {
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
