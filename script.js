@@ -74,7 +74,7 @@ function renderCart() {
   drawerCount.textContent = count;
   checkoutButton.disabled = count === 0;
   if (!count) {
-    cartItems.innerHTML = `<div class="cart-empty"><span>✿</span><h3>Пока здесь пусто</h3><p>Добавьте любимый мёд — и он появится здесь.</p><button class="button button--dark" id="continueShopping">Перейти в каталог</button></div>`;
+    cartItems.innerHTML = `<div class="cart-empty"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h2l2 10.2a2 2 0 0 0 2 1.6h7.5a2 2 0 0 0 1.9-1.4L21 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></span><h3>Пока здесь пусто</h3><p>Добавьте любимый мёд — и он появится здесь.</p><button class="button button--dark" id="continueShopping">Перейти в каталог</button></div>`;
     return;
   }
   cartItems.innerHTML = [...cart.entries()].map(([id, item]) => `
@@ -83,7 +83,7 @@ function renderCart() {
       <div><h3>${item.name}</h3><small>${item.weight} · цена уточняется</small>
         <div class="quantity-control"><button type="button" data-quantity="-1" aria-label="Уменьшить количество">−</button><span>${item.quantity}</span><button type="button" data-quantity="1" aria-label="Увеличить количество">+</button></div>
       </div>
-      <button class="cart-line__remove" type="button" data-remove aria-label="Удалить товар">×</button>
+      <button class="cart-line__remove" type="button" data-remove aria-label="Удалить товар"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     </article>`).join('');
 }
 
